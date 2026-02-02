@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>本格チェスAI - 対局室</title>
+    <link rel="stylesheet" href="chess.css">
+</head>
+<body>
+    <main>
+        <section id="game-page">
+            <button class="back-btn" onclick="location.href='../index.html'">← ポータルに戻る</button>
+            <h1>Chess AI 対戦</h1>
+
+            <div id="gameContainer">
+                <div class="captured-area" id="aiCapturedArea">
+                    <span class="status-label">AI 獲得した駒</span>
+                    <div id="black-captured" class="piece-list"></div>
+                </div>
+
+                <div id="current-turn-display" class="turn-white">あなたの番 (白)</div>
+                <div id="chess-board"></div>
+                
+                <div class="captured-area" id="playerCapturedArea">
+                    <span class="status-label">あなた 獲得した駒</span>
+                    <div id="white-captured" class="piece-list"></div>
+                </div>
+            </div>
+
+            <div id="game-result-overlay" style="display:none;">
+                <div class="result-content">
+                    <h2 class="final-status"></h2>
+                    <button class="result-btn" onclick="location.reload()">もう一度対局</button>
+                    <button class="result-btn" onclick="location.href='../index.html'">ポータルに戻る</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="chess_main.js"></script>
+</body>
+</html>

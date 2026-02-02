@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5x5将棋 - 対局室</title>
+  <link rel="stylesheet" href="shogi.css">
+</head>
+<body>
+  <main>
+    <section id="game-page">
+      <button class="back-to-portal" onclick="location.href='../index.html'">← ポータルに戻る</button>
+      <h1>5x5 将棋AI対戦</h1>
+
+      <div id="gameContainer">
+        <div class="captured-area" id="aiCapturedArea">
+          <h3>AI 持ち駒</h3>
+          <div id="aiCaptured"></div>
+        </div>
+        
+        <div id="board"></div>
+        
+        <div class="captured-area" id="playerCapturedArea">
+          <h3>あなた 持ち駒</h3>
+          <div id="playerCaptured"></div>
+        </div>
+      </div>
+
+      <div id="game-result-overlay" style="display:none;">
+        <div class="result-content">
+          <h2 id="result-message"></h2>
+          <button class="back-to-portal" onclick="restartGame()">もう一度対局</button>
+          <button class="back-to-portal" onclick="location.href='../index.html'">← ポータルに戻る</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

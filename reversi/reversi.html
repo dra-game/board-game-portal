@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>リバーシ - 対局室</title>
+  <link rel="stylesheet" href="reversi.css">
+</head>
+<body>
+  <main>
+    <section id="game-page">
+      <button class="back-btn" onclick="location.href='../index.html'">← ポータルに戻る</button>
+      
+      <h1>リバーシ AI対戦</h1>
+
+      <div id="gameContainer">
+        <div class="status-panel">
+          <div class="status-item">
+            <span class="status-label">手番</span>
+            <div id="current-turn-display" class="turn-black">黒</div>
+          </div>
+          <div class="status-item">
+            <span class="status-label">スコア</span>
+            <div class="score-box">
+              <span class="score-black">黒: <span id="black-count">2</span></span>
+              <span class="score-white">白: <span id="white-count">2</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div id="reversi-board"></div>
+
+        <div class="control-panel">
+          <button id="pass-btn" class="control-btn" style="display: none;">パスする</button>
+        </div>
+      </div>
+
+      <div id="game-result-overlay" style="display:none;">
+        <div class="result-content">
+          <h2 id="result-message"></h2>
+          <div class="final-score">
+            <span id="final-black"></span> - <span id="final-white"></span>
+          </div>
+          <button class="result-btn" onclick="restartGame()">もう一度対局</button>
+          <button class="result-btn" onclick="location.href='../index.html'">ポータルに戻る</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="reversi_main.js"></script>
+</body>
+</html>
