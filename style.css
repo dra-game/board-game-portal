@@ -254,11 +254,61 @@ footer {
 }
 
 /* --- スマホ対応 --- */
+/* --- ポータル画面：スマホ対応追加 --- */
 @media (max-width: 600px) {
-  .game-card {
-    width: 90%;
-  }
+  /* タイトル周りの余白を調整 */
   h1 {
-    font-size: 20px;
+    font-size: 22px;
+    margin-top: 15px;
+  }
+
+  /* ヘッダーのタブボタンを横幅いっぱいに */
+  .main-nav {
+    gap: 5px;
+    padding: 5px;
+  }
+  .tab-btn {
+    padding: 10px 10px;
+    font-size: 14px;
+    flex: 1; /* ボタンを均等な幅にする */
+  }
+
+  /* ゲームカードの調整 */
+  .game-selection-area {
+    padding: 10px;
+    gap: 15px;
+  }
+
+  .game-card {
+    width: 95%; /* 画面幅のほぼいっぱいに */
+    padding: 15px;
+    margin: 0;
+  }
+
+  .game-icon {
+    max-width: 120px; /* アイコンを少し小さくして説明文のスペースを確保 */
+    height: 90px;
+  }
+
+  /* 難易度選択ボタンを指で押しやすく（高さを確保） */
+  .difficulty-selector label {
+    padding: 12px 0;
+    font-size: 1rem;
+  }
+
+  /* スタートボタンを巨大化（親指で押しやすい位置とサイズ） */
+  .start-btn {
+    padding: 15px;
+    font-size: 1.2rem;
+    margin-top: 10px;
+  }
+
+  /* 取扱説明書ページのフォント調整 */
+  .manual-content h3 {
+    font-size: 1.1rem;
+  }
+  .manual-content ul li {
+    font-size: 0.9rem;
+    text-align: left; /* スマホでは左寄せが見やすい */
   }
 }
