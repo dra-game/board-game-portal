@@ -1,0 +1,264 @@
+/* --- 基本レイアウト --- */
+body {
+  font-family: sans-serif;
+  text-align: center;
+  margin: 0;
+  background-image: url('toppage_background.png'); 
+  background-size: cover;          /* 画面いっぱいに広げる */
+  background-position: center;     /* 中央寄せ */
+  background-attachment: fixed;    /* スクロールしても背景を動かさない */
+  background-repeat: no-repeat;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* タイトルの文字を白くして読みやすくする */
+.portal-header h1, .portal-header p {
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8); /* 文字の影をつけて視認性アップ */
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* --- ヘッダー・タブ切り替え --- */
+header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 20px;
+  /* 背景を真っ白ではなく、少し透けたダークトーンにするとSF背景に合います */
+  background-color: rgba(0, 0, 0, 0.7); 
+  backdrop-filter: blur(10px); /* 背景をぼかす（イマドキのデザイン） */
+}
+
+.main-nav {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  padding: 10px;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #ccc; /* 文字を少し明るく */
+}
+
+.tab-btn.active {
+  color: #fff;
+  border-bottom: 2px solid #fff;
+}
+
+/* --- セクション表示制御 --- */
+.view-section {
+  display: none; /* 基本は非表示 */
+}
+
+.view-section.active {
+  display: block; /* activeクラスがついた時だけ表示 */
+}
+
+/* --- ゲームカードのレイアウト --- */
+.game-selection-area {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.game-card {
+  /* 背景を少し透過させて、背景画像の色味を透かすとかっこいいです */
+  background: rgba(255, 255, 255, 0.9); 
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  
+  border-radius: 15px;
+  padding: 20px;
+  margin: 10px;
+  width: 280px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* 影を深くして立体感を出す */
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.game-card p {
+  color: #333; /* 少し濃いグレーにして背景に負けないようにする */
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.game-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 1); /* ホバー時は不透明に */
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+}
+
+.game-icon {
+  width: 100%;       /* 親要素の幅いっぱいに広げる */
+  max-width: 160px;  /* アイコンの最大サイズを少し大きく設定 */
+  height: 120px;     /* 高さを固定して横並びのラインを揃える */
+  object-fit: contain; /* アスペクト比を保ちつつ、枠内に収める */
+  margin: 0 auto 15px;
+  display: block;
+  /* アイコンに少し立体感を出す */
+  filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2)); 
+}
+
+/* ラベルテキスト */
+.select-label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+/* --- 難易度選択エリアの調整 --- */
+.difficulty-selector {
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.08); /* 真っ白や真っ黒ではなく、薄く馴染ませる */
+    border-radius: 10px;
+    padding: 2px;
+    gap: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px; /* ボタンとの間に余裕を持たせる */
+}
+
+/* 選択されているボタンを少しだけ浮かせる */
+.difficulty-selector input[type="radio"]:checked + label {
+    transform: scale(1.02);
+}
+
+/* ラジオボタンのラベル（各難易度ボタン） */
+.difficulty-selector label {
+    flex: 1;
+    padding: 8px 0; /* 少し高さを抑えてスマートに */
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #666; /* 通常時の文字色を少し落とす */
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+}
+
+/* マウスを乗せたとき */
+.difficulty-selector label:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* --- 難易度選択の色彩（IDに依存しない汎用的な書き方） --- */
+
+/* 初級：緑 */
+#shogi-easy:checked + label,
+#reversi-easy:checked + label,
+#chess-easy:checked + label { 
+  background-color: #81c784; 
+  color: white;
+  box-shadow: 0 2px 5px rgba(129, 199, 132, 0.4); 
+}
+
+/* 中級：オレンジ */
+#shogi-normal:checked + label,
+#reversi-normal:checked + label,
+#chess-normal:checked + label { 
+  background-color: #ffb74d; 
+  color: white;
+  box-shadow: 0 2px 5px rgba(255, 183, 77, 0.4); 
+}
+
+/* 上級：赤（ここを追加！） */
+#shogi-hard:checked + label,
+#reversi-hard:checked + label,
+#chess-hard:checked + label { 
+  background-color: #e57373; 
+  color: white;
+  box-shadow: 0 2px 5px rgba(229, 115, 115, 0.4); 
+}
+
+/* 選択時に少し浮かせる演出 */
+.difficulty-selector input[type="radio"]:checked + label {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transform: translateY(-1px);
+}
+
+.start-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.1rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.start-btn:hover {
+  opacity: 1;
+  background-color: #218838;
+  box-shadow: 0 0 20px rgba(40, 167, 69, 0.6); /* ネオンのような発光 */
+  transform: scale(1.02); /* わずかに大きくする */
+}
+
+.manual-card {
+    background: rgba(0, 0, 0, 0.6) !important; /* カード自体を暗く透過させる */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* --- 取扱説明書セクションの文字色調整 --- */
+#manual-page {
+    color: white; /* 全体の文字を白にする */
+}
+
+#manual-page h2, 
+#manual-page h3,
+#manual-page li {
+    color: #ffffff; /* 文字を純白に */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1); /* 強い影をつけて視認性を確保 */
+}
+
+.manual-content ul li {
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9); /* リストの文字も影で強調 */
+    list-style-position: inside; /* 文字が画像に被っても箇条書きを見やすく */
+    margin-bottom: 8px;
+}
+
+/* 緑色のライン（ボーダー）も白背景に映えるように調整 */
+.manual-content h3 {
+    border-left: 4px solid #81c784; /* アクセントカラー（初級と同じ緑） */
+    padding-left: 10px;
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+footer {
+    padding: 20px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.8rem;
+}
+
+/* --- スマホ対応 --- */
+@media (max-width: 600px) {
+  .game-card {
+    width: 90%;
+  }
+  h1 {
+    font-size: 20px;
+  }
+}

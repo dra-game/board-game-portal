@@ -1,0 +1,288 @@
+/* --- 全体レイアウト --- */
+body {
+  font-family: sans-serif;
+  text-align: center;
+  margin: 0;
+  background-color: #1a1a1a;
+  color: white;
+}
+
+#game-page {
+  background-image: url('../assets/chess_background.png'); /* */
+  background-size: cover;               /* 300pxからcoverに変更 */
+  background-position: center;          /* 画像を中央寄せに */
+  background-repeat: no-repeat;         /* 繰り返しを禁止 */
+  background-attachment: fixed;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-bottom: 50px;
+}
+
+#game-page h1 {
+  background-color: rgba(255, 255, 255, 0.5); /* 黒から「白」に変更 */
+  color: #1a1a1a;                             /* 文字は黒のまま */
+  text-shadow: none;                          /* 黒文字に黒い影は不要なので消す */
+  padding: 10px 30px;
+  border-radius: 10px;
+  margin-top: 20px;
+  font-size: 28px;
+  border: 1px solid rgba(0, 0, 0, 0.1);       /* 枠線も黒っぽく */
+}
+
+#gameContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 10px auto;
+  width: fit-content;
+}
+
+/* --- ステータスパネル --- */
+.status-panel {
+  display: flex;
+  gap: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 15px 30px;
+  border-radius: 15px;
+  border: 1px solid #444;
+}
+
+.status-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.status-label {
+  font-size: 12px;
+  color: #aaa;
+  margin-bottom: 5px;
+}
+
+#current-turn-display {
+  padding: 8px 25px; /* 少し余裕を持たせる */
+  border-radius: 5px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+.turn-white { background-color: #fff; color: #000; border: 1px solid #ccc; }
+.turn-black { background-color: #3e2723; color: #fff; border: 1px solid #555; }
+
+/* --- チェス盤の設定 --- */
+#chess-board {
+  display: grid;
+  grid-template-columns: repeat(8, 60px);
+  grid-template-rows: repeat(8, 60px);
+  background-color: #3e2723; /* 外枠の色 */
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+  border: 5px solid #2d1b18;
+  flex-shrink: 0;
+}
+
+.captured-area {
+    width: 100%;
+    min-width: 480px; /* 盤面の横幅(60px*8)に合わせる */
+    background-color: rgba(255, 255, 255, 0.4);
+    color: #1a1a1a;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8); /* 影をより深く */
+    border: 8px solid #3e2723;
+}
+
+.piece-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-height: 35px;
+    gap: 2px;
+}
+
+/* --- 各マス目の設定（タイル模様） --- */
+.chess-cell {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  position: relative;
+  touch-action: manipulation;
+  transition: background-color 0.2s ease;
+}
+
+/* 交互の色 */
+.chess-cell.light { background-color: #ecf0f1; }
+.chess-cell.dark { background-color: #95a5a6; }
+
+/* ホバー・選択・移動候補の視覚効果 */
+.chess-cell:hover {
+  filter: brightness(1.1);
+}
+
+.chess-cell.selected {
+  background-color: #f1c40f !important; /* 選択中の駒の背景を黄色に */
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.2);
+}
+
+.chess-cell.possible-move::after {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* --- 駒の表示設定 --- */
+.piece {
+  width: 90%;
+  height: 90%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 10;
+  pointer-events: none;
+  filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.3));
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- 黒の駒アセット --- */
+.piece.black-p { background-image: url('../assets/chess_black_P.png'); }
+.piece.black-r { background-image: url('../assets/chess_black_R.png'); }
+.piece.black-n { background-image: url('../assets/chess_black_N.png'); }
+.piece.black-b { background-image: url('../assets/chess_black_B.png'); }
+.piece.black-q { background-image: url('../assets/chess_black_Q.png'); }
+.piece.black-k { background-image: url('../assets/chess_black_K.png'); }
+
+/* --- 白の駒アセット --- */
+.piece.white-p { background-image: url('../assets/chess_white_P.png'); }
+.piece.white-r { background-image: url('../assets/chess_white_R.png'); }
+.piece.white-n { background-image: url('../assets/chess_white_N.png'); }
+.piece.white-b { background-image: url('../assets/chess_white_B.png'); }
+.piece.white-q { background-image: url('../assets/chess_white_Q.png'); }
+.piece.white-k { background-image: url('../assets/chess_white_K.png'); }
+
+/* --- ゲーム終了オーバーレイ --- */
+#game-result-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.result-content {
+  background: #2c3e50;
+  color: white;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 10px 50px rgba(0,0,0,1);
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px); /* 磨りガラス質感を追加 */
+}
+
+.final-status {
+  font-size: 32px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* --- ボタン類 --- */
+.back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: rgba(0, 0, 0, 0.7); /* ポータルヘッダーと同じ色 */
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  backdrop-filter: blur(10px); /* 磨りガラス質感 */
+  transition: all 0.3s;
+  font-weight: bold;
+  z-index: 100;
+}
+.back-btn:hover { 
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); /* 白い発光 */
+  transform: translateX(-5px); /* 少し左に動く演出 */
+}
+
+.result-btn {
+  margin: 10px;
+  padding: 12px 25px;
+  border-radius: 8px;
+  border: none;
+  background-color: #3498db;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+.result-btn:hover { 
+  background-color: #000; /* ここを黒に変更 */
+  color: #fff;;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4); /* 白い発光 */
+  transform: translateX(-5px); 
+  transition: all 0.3s ease;
+ }
+
+ /* リザルト画面の中にある時だけ、左上固定を解除する */
+.result-content .back-to-portal {
+    position: static;
+    margin: 10px;
+    display: inline-block;
+}
+
+/* --- アニメーション --- */
+@keyframes popIn {
+  0% { transform: scale(0.7); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* --- スマホ対応 --- */
+/* --- スマホ対応（チェス用追加） --- */
+@media (max-width: 600px) {
+  #chess-board {
+    /* 1マスを40pxに（40*8 = 320px でスマホの標準幅に収まる） */
+    grid-template-columns: repeat(8, 40px);
+    grid-template-rows: repeat(8, 40px);
+    padding: 5px;
+    border-width: 3px; /* 枠も少しスリムに */
+  }
+
+  .chess-cell {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* 獲得した駒エリアの幅も盤面に合わせる */
+  .captured-area {
+    min-width: 320px !important;
+    padding: 10px;
+  }
+
+  /* 移動可能範囲のドットサイズも調整 */
+  .chess-cell.possible-move::after {
+    width: 12px;
+    height: 12px;
+  }
+}
